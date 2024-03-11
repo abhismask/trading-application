@@ -11,7 +11,7 @@
     }
   ],
   "paths": {
-    "/stock/place-order": {
+    "/instrument/place-order": {
       "post": {
         "tags": [
           "order-controller"
@@ -41,7 +41,7 @@
         }
       }
     },
-    "/stock/place-composite-order": {
+    "/instrument/place-composite-order": {
       "post": {
         "tags": [
           "order-controller"
@@ -71,7 +71,7 @@
         }
       }
     },
-    "/stock/cancel-order": {
+    "/instrument/cancel-order": {
       "post": {
         "tags": [
           "order-controller"
@@ -101,7 +101,7 @@
         }
       }
     },
-    "/stock/transactions": {
+    "/instrument/transactions": {
       "get": {
         "tags": [
           "order-controller"
@@ -124,7 +124,7 @@
         }
       }
     },
-    "/stock/orders": {
+    "/instrument/orders": {
       "get": {
         "tags": [
           "order-controller"
@@ -150,6 +150,20 @@
   },
   "components": {
     "schemas": {
+      "Instrument": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "askingPrice": {
+            "type": "number"
+          }
+        }
+      },
       "LocalTime": {
         "type": "object",
         "properties": {
@@ -191,25 +205,14 @@
             "type": "integer",
             "format": "int32"
           },
-          "stock": {
-            "$ref": "#/components/schemas/Stock"
+          "instrument": {
+            "$ref": "#/components/schemas/Instrument"
           },
           "askingPrice": {
             "type": "number"
-          }
-        }
-      },
-      "Stock": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
           },
-          "symbol": {
-            "type": "string"
-          },
-          "askingPrice": {
-            "type": "number"
+          "cancelled": {
+            "type": "boolean"
           }
         }
       },
