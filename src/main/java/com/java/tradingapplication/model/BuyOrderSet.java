@@ -5,10 +5,6 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-/**
- * BuyOrderSet is a set of {@link Order} of type BUY, sorted by time of order
- * placement.
- */
 public class BuyOrderSet {
     private SortedSet<Order> orderSet;
 

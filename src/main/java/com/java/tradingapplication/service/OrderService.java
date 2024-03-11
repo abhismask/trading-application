@@ -1,24 +1,29 @@
 package com.java.tradingapplication.service;
 
 
+import com.java.tradingapplication.exception.AddOrderException;
+import com.java.tradingapplication.model.*;
 import com.java.tradingapplication.util.IOrderSetStore;
 import com.java.tradingapplication.util.ITransactionStore;
 import com.java.tradingapplication.util.OrderSetStore;
 import com.java.tradingapplication.util.TransactionStore;
-import com.java.tradingapplication.model.*;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.java.tradingapplication.model.OrderType.BUY;
 import static com.java.tradingapplication.model.OrderType.SELL;
+
 @Service
 public final class OrderService {
-    private  IOrderSetStore orderStore = OrderSetStore.getInstance();
+    private IOrderSetStore orderStore = OrderSetStore.getInstance();
     private ITransactionStore transactionStore = TransactionStore.getInstance();
-    private  Map<Instrument, BuyOrderSet> buys = orderStore.getBuyOrderStore();
-    private  Map<Instrument, SellOrderSet> sells = orderStore.getSellOrderStore();
-    private  List<OrderEntry> transactionList= transactionStore.getOrderEntries();
+    private Map<Instrument, BuyOrderSet> buys = orderStore.getBuyOrderStore();
+    private Map<Instrument, SellOrderSet> sells = orderStore.getSellOrderStore();
+    private List<OrderEntry> transactionList = transactionStore.getOrderEntries();
 
     private List<Order> orderList = new ArrayList<>();
 
@@ -37,7 +42,7 @@ public final class OrderService {
             }
 
             if (order.getInstrument() == null) {
-                throw new AddOrderException("No stocks attached to Order: " + order.getId());
+                throw new AddOrderException("No instrument attached to order: " + order.getId());
             }
 
             Set<Order> orderSet = null;
@@ -56,12 +61,11 @@ public final class OrderService {
                     sellOrders = new SellOrderSet();
                     sells.put(order.getInstrument(), sellOrders);
                 }
-                //orderList.add(new Order(order.getId(), order.getTime(), order.getType(), order.getQuantity(), order.getStock(), order.getAskingPrice()));
                 orderSet = sellOrders.getOrderSet();
             }
 
             if (orderSet.contains(order)) {
-                throw new AddOrderException("Order is possibly duplicated: " + order.getId());
+                throw new AddOrderException("duplicated order: " + order.getId());
             } else {
                 orderSet.add(order);
                 System.out.println(orderSet);
@@ -69,16 +73,7 @@ public final class OrderService {
         }
     }
 
-    /**
-     * Cleans in-memory data-stores. Useful for testing.
-     */
-    public void cleanup() {
-        buys.clear();
-        sells.clear();
-        transactionList.clear();
-    }
-    public  void processOrders() {
-        // process buy orders
+    public void processOrders() {
         buys.forEach((stock, orders) -> {
             Set<Order> buyOrderSet = orders.getOrderSet();
 
@@ -108,14 +103,10 @@ public final class OrderService {
                             sell.setQuantity(0);
                         }
 
-                        // record it in order entry
+                        // adding executed order to transaction list
 
                         OrderEntry entry = new OrderEntry(sell, buy, qty, sell.getAskingPrice());
                         transactionList.add(entry);
-                        System.out.println(transactionList);
-                        System.out.println("***************************************************");
-                        System.out.println("SellMap: "+sells);
-                        System.out.println("BuyMap "+buys);
                     }
                 }
             });
@@ -142,12 +133,12 @@ public final class OrderService {
     public boolean cancel(Order order) {
         Instrument removeInstrument = order.getInstrument();
         boolean isCancelled = false;
-        if(order.getType().equals(BUY)){
-            isCancelled =  buys.get(removeInstrument).getOrderSet().remove(order);
-        }else{
+        if (order.getType().equals(BUY)) {
+            isCancelled = buys.get(removeInstrument).getOrderSet().remove(order);
+        } else {
             isCancelled = sells.get(removeInstrument).getOrderSet().remove(order);
         }
-        if(isCancelled){
+        if (isCancelled) {
             order.setCancelled(true);
             orderList.add(order);
         }

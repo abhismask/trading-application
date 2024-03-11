@@ -11,7 +11,7 @@
     }
   ],
   "paths": {
-    "/instrument/place-order": {
+    "/stock/place-order": {
       "post": {
         "tags": [
           "order-controller"
@@ -41,7 +41,7 @@
         }
       }
     },
-    "/instrument/place-composite-order": {
+    "/stock/place-composite-order": {
       "post": {
         "tags": [
           "order-controller"
@@ -71,7 +71,7 @@
         }
       }
     },
-    "/instrument/cancel-order": {
+    "/stock/cancel-order": {
       "post": {
         "tags": [
           "order-controller"
@@ -101,7 +101,7 @@
         }
       }
     },
-    "/instrument/transactions": {
+    "/stock/transactions": {
       "get": {
         "tags": [
           "order-controller"
@@ -124,7 +124,7 @@
         }
       }
     },
-    "/instrument/orders": {
+    "/stock/orders": {
       "get": {
         "tags": [
           "order-controller"
@@ -196,9 +196,6 @@
           },
           "askingPrice": {
             "type": "number"
-          },
-          "cancelled": {
-            "type": "boolean"
           }
         }
       },

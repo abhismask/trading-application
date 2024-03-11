@@ -50,12 +50,4 @@ public class Instrument {
         return this.symbol.equals(other.getSymbol());
     }
 
-    @Override
-    public String toString() {
-        return "Stock{" +
-                "id='" + id + '\'' +
-                ", symbol='" + symbol + '\'' +
-                ", askingPrice=" + askingPrice +
-                '}';
-    }
 }

@@ -2,8 +2,8 @@ package com.java.tradingapplication.util;
 
 
 import com.java.tradingapplication.model.BuyOrderSet;
-import com.java.tradingapplication.model.SellOrderSet;
 import com.java.tradingapplication.model.Instrument;
+import com.java.tradingapplication.model.SellOrderSet;
 
 import java.util.HashMap;
 import java.util.Map;

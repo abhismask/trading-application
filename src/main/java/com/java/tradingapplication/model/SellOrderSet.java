@@ -5,9 +5,6 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-/**
- * SellOrderSet is a set of {@link Order} of type SELL, sorted by price.
- */
 public class SellOrderSet {
     private SortedSet<Order> orderSet;
 
@@ -35,7 +32,7 @@ final class SellOrderComparator implements Comparator<Order> {
             return 0; // invalid orders
         }
         int priceCompare = 1;
-        if(a.getInstrument().getAskingPrice() !=null && b.getInstrument().getAskingPrice() != null){
+        if (a.getInstrument().getAskingPrice() != null && b.getInstrument().getAskingPrice() != null) {
             priceCompare = a.getInstrument().getAskingPrice().compareTo(b.getInstrument().getAskingPrice());
         }
         if (priceCompare == 0) {

@@ -1,16 +1,14 @@
 package com.java.tradingapplication.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.math.BigDecimal;
 import java.util.UUID;
 
 public class OrderEntry {
-    private  UUID id;
-    private  Order party;
-    private  Order counterParty;
-    private  int quantity;
-    private  BigDecimal executionPrice;
+    private UUID id;
+    private Order party;
+    private Order counterParty;
+    private int quantity;
+    private BigDecimal executionPrice;
 
     public OrderEntry(Order party, Order counterParty, int quantity, BigDecimal executionPrice) {
         this.id = UUID.randomUUID();

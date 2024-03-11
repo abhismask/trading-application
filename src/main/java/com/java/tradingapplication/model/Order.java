@@ -3,17 +3,17 @@ package com.java.tradingapplication.model;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 
-public class Order{
-    private  String id;
-    private  LocalTime time;
-    private  OrderType type;
+public class Order {
+    private String id;
+    private LocalTime time;
+    private OrderType type;
     private int quantity;
     private Instrument instrument;
-    private  BigDecimal askingPrice;
+    private BigDecimal askingPrice;
 
     private boolean isCancelled;
 
-    public Order(){
+    public Order() {
 
     }
 
@@ -76,15 +76,4 @@ public class Order{
         return (obj instanceof Order) && (this.id.equals(((Order) obj).getId()));
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id='" + id + '\'' +
-                ", time=" + time +
-                ", type=" + type +
-                ", quantity=" + quantity +
-                ", stock=" + instrument +
-                ", askingPrice=" + askingPrice +
-                '}';
-    }
 }
