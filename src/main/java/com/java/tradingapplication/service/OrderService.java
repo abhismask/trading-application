@@ -9,10 +9,7 @@ import com.java.tradingapplication.util.OrderSetStore;
 import com.java.tradingapplication.util.TransactionStore;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static com.java.tradingapplication.model.OrderType.BUY;
 import static com.java.tradingapplication.model.OrderType.SELL;
@@ -24,7 +21,6 @@ public final class OrderService {
     private Map<Instrument, BuyOrderSet> buys = orderStore.getBuyOrderStore();
     private Map<Instrument, SellOrderSet> sells = orderStore.getSellOrderStore();
     private List<OrderEntry> transactionList = transactionStore.getOrderEntries();
-
     private List<Order> orderList = new ArrayList<>();
 
     public OrderService() {
@@ -46,7 +42,7 @@ public final class OrderService {
             }
 
             Set<Order> orderSet = null;
-            orderList.add(new Order(order.getId(), order.getTime(), order.getType(), order.getQuantity(), order.getInstrument(), order.getAskingPrice()));
+            orderList.add(new Order(order.getId(), order.getTraderId(), order.getTime(), order.getType(), order.getQuantity(), order.getInstrument(), order.getAskingPrice()));
             if (order.getType() == BUY) {
                 BuyOrderSet buyOrders = buys.get(order.getInstrument());
                 if (buyOrders == null) {
@@ -74,14 +70,14 @@ public final class OrderService {
     }
 
     public void processOrders() {
-        buys.forEach((stock, orders) -> {
+        buys.forEach((instrument, orders) -> {
             Set<Order> buyOrderSet = orders.getOrderSet();
 
             if (buyOrderSet == null || buyOrderSet.isEmpty()) {
                 return;
             }
 
-            SellOrderSet sOrderSet = sells.get(stock);
+            SellOrderSet sOrderSet = sells.get(instrument);
             if (sOrderSet == null) {
                 return;
             }
@@ -143,6 +139,13 @@ public final class OrderService {
             orderList.add(order);
         }
         return isCancelled;
+    }
+
+    public boolean validOrder(Order order) {
+        if(Objects.nonNull(order.getId()) && Objects.nonNull(order.getTraderId()) && Objects.nonNull(order.getInstrument()) && Objects.nonNull(order.getType()) && Objects.nonNull(order.getQuantity()) && Objects.nonNull(order.getTime())){
+            return  true;
+        }
+        return false;
     }
 
 }

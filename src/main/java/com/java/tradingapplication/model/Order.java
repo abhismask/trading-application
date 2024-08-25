@@ -5,6 +5,8 @@ import java.time.LocalTime;
 
 public class Order {
     private String id;
+
+    private String traderId;
     private LocalTime time;
     private OrderType type;
     private int quantity;
@@ -17,8 +19,9 @@ public class Order {
 
     }
 
-    public Order(String id, LocalTime time, OrderType type, int quantity, Instrument instrument, BigDecimal askingPrice) {
+    public Order(String id, String traderId, LocalTime time, OrderType type, int quantity, Instrument instrument, BigDecimal askingPrice) {
         this.id = id;
+        this.traderId = traderId;
         this.time = time;
         this.type = type;
         this.quantity = quantity;
@@ -64,6 +67,14 @@ public class Order {
 
     public void setCancelled(boolean cancelled) {
         isCancelled = cancelled;
+    }
+
+    public String getTraderId() {
+        return traderId;
+    }
+
+    public void setTraderId(String traderId) {
+        this.traderId = traderId;
     }
 
     @Override

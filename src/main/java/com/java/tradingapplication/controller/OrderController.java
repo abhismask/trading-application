@@ -25,6 +25,9 @@ public class OrderController {
         if (order == null) {
             return "Order cannot be placed with empty order details";
         }
+        if(!orderService.validOrder(order)){
+            return "Not a valid order: " + order;
+        }
         List<Order> orders = new ArrayList<>();
         orders.add(order);
         orderService.placeOrder(orders);
@@ -39,10 +42,8 @@ public class OrderController {
         if (compositeOrder.getOrders().length > 3) {
             return "Maximum 3 composite orders are supported";
         }
-        if (compositeOrder.getOrders().length > 0) {
-            List<Order> orderList = new ArrayList<>(Arrays.asList(compositeOrder.getOrders()));
-            orderService.placeOrder(orderList);
-        }
+        List<Order> orderList = Arrays.asList(compositeOrder.getOrders());
+        orderService.placeOrder(orderList);
         return "Order placed for orderId: " + compositeOrder.getId();
     }
 
